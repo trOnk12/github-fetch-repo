@@ -12,14 +12,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class RepositoryNetwork (
+data class RepositoryResponse (
 
 	@SerializedName("id") val id : Int,
 	@SerializedName("node_id") val node_id : String,
 	@SerializedName("name") val name : String,
 	@SerializedName("full_name") val full_name : String,
 	@SerializedName("private") val private : Boolean,
-	@SerializedName("owner") val owner : OwnerNetwork,
+	@SerializedName("owner") val owner : Owner,
 	@SerializedName("html_url") val html_url : String,
 	@SerializedName("description") val description : String,
 	@SerializedName("fork") val fork : Boolean,
