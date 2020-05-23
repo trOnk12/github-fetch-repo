@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,26 +28,35 @@
                 tools:layout_editor_absoluteX="141dp"
                 tools:layout_editor_absoluteY="143dp" />
 
+
+            <TextView
+                android:id="@+id/welcome_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Welcome,"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="76dp"
+                tools:layout_editor_absoluteY="281dp" />
+
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Search a repository"
-                android:textSize="30sp"
-                tools:layout_editor_absoluteX="76dp"
-                tools:layout_editor_absoluteY="281dp" />
+                android:text="search a repository."
+                android:textSize="18sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16do"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="336dp">
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -73,8 +82,9 @@
                 android:text="@android:string/search_go">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:background="@android:drawable/ic_search_category_default"
                     android:backgroundTint="#FFFFFF" />
 
