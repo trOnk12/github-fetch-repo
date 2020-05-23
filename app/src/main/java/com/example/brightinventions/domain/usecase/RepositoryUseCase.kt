@@ -6,7 +6,7 @@ import com.example.brightinventions.domain.model.Repository
 import com.example.brightinventions.domain.repository.IGithubRepositoryRepository
 import com.example.brightinventions.domain.repository.INetworkStateRepository
 
-class getRepositoryUseCase(
+class GetRepositoryUseCase(
     private val githubRepository: IGithubRepositoryRepository,
     private val networkStateRepository: INetworkStateRepository
 ) : UseCase<RepositorySearchCriteria, Repository>() {

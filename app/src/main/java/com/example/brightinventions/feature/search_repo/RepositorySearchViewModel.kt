@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.brightinventions.core.Result
 import com.example.brightinventions.data.repository.EmptyOfflineDataContainerException
 import com.example.brightinventions.domain.model.Repository
+import com.example.brightinventions.domain.usecase.GetRepositoryUseCase
 import com.example.brightinventions.domain.usecase.RepositorySearchCriteria
-import com.example.brightinventions.domain.usecase.getRepositoryUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RepositorySearchViewModel @Inject constructor(
-    private val getRepositoryUseCase: getRepositoryUseCase,
+    private val getRepositoryUseCase: GetRepositoryUseCase,
     private val searchQueryExtractor: SearchQueryExtractor<RepositorySearchCriteria>
 ) : ViewModel() {
 
