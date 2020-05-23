@@ -1,4 +1,4 @@
-package com.example.brightinventions.feature.model
+package com.example.brightinventions.ui.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -24,8 +24,11 @@ class GithubRepositoryRepository @Inject constructor(
     }
 
     override fun getOffline(repositoryName: String, ownerName: String) =
-        githubLocalSource.getRepository(repositoryName, ownerName)
-            ?: throw EmptyOfflineDataContainerException()
+        getCachedData(repositoryName, ownerName) ?: throw EmptyOfflineDataContainerException()
+
+    private fun getCachedData(repositoryName: String, ownerName: String): Repository? {
+        return githubLocalSource.getRepository(repositoryName, ownerName)
+    }
 
     private fun fetchRemote(repositoryName: String, ownerName: String): Repository {
         githubService.getRepository(repositoryName, ownerName).let { repositoryResponse ->
@@ -33,7 +36,12 @@ class GithubRepositoryRepository @Inject constructor(
                 cacheRepository(repositoryName, ownerName, repositoryResponse)
                 cacheCommit(repositoryResponse, commitResponse)
 
-                return map(repositoryResponse, commitResponse)
+                return combinedResponseMapper.mapToRepository(
+                    CombinedResponse(
+                        repositoryResponse,
+                        commitResponse
+                    )
+                )
             }
         }
     }
@@ -65,14 +73,6 @@ class GithubRepositoryRepository @Inject constructor(
             )
         )
     }
-
-    private fun map(repositoryResponse: RepositoryResponse, commitResponse: CommitResponse) =
-        combinedResponseMapper.mapToRepository(
-            CombinedResponse(
-                repositoryResponse,
-                commitResponse
-            )
-        )
 
 }
 

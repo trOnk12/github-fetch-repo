@@ -1,4 +1,4 @@
-package com.example.brightinventions.feature.search_repo
+package com.example.brightinventions.ui.search
 
 import android.content.Context
 import android.os.Bundle
@@ -67,6 +67,7 @@ class RepositorySearchFragment : Fragment(R.layout.repository_search_fragment) {
 
     private fun showRepositoryDetail(data: Repository) {
         val bundle = bundleOf("repository" to data)
+
         findNavController().navigate(
             R.id.action_repositorySearchFragment_to_repositoryDetailFragment,
             bundle

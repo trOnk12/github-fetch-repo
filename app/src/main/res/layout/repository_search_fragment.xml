@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.brightinventions.feature.search_repo.RepositorySearchViewModel" />
+            type="com.example.brightinventions.ui.search.RepositorySearchViewModel" />
     </data>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"

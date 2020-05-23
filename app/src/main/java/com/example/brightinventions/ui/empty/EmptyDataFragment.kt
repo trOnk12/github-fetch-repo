@@ -1,4 +1,4 @@
-package com.example.brightinventions.feature.empty
+package com.example.brightinventions.ui.empty
 
 import androidx.fragment.app.Fragment
 import com.example.brightinventions.R

@@ -3,7 +3,7 @@ package com.example.brightinventions.di.module.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.app.mateusz.socialize.di.module.viewmodel.ViewModelFactory
-import com.example.brightinventions.feature.search_repo.RepositorySearchViewModel
+import com.example.brightinventions.ui.search.RepositorySearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

@@ -1,4 +1,4 @@
-package com.example.brightinventions.feature
+package com.example.brightinventions.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

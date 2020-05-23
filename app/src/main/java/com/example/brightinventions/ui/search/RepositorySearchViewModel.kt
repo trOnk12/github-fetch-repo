@@ -1,4 +1,4 @@
-package com.example.brightinventions.feature.search_repo
+package com.example.brightinventions.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.brightinventions.feature.search_repo
+package com.example.brightinventions.ui.search
 
 import com.example.brightinventions.di.module.component.CoreComponent
 import dagger.Component
