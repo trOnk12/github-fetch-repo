@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.brightinventions.GithubApp
 import com.example.brightinventions.R
 import com.example.brightinventions.core.observe
@@ -58,18 +60,21 @@ class RepositorySearchFragment : Fragment(R.layout.repository_search_fragment) {
 
     private fun onRepositoryDataState(repositoryDataState: RepositoryDataState) {
         when (repositoryDataState) {
-            is RepositoryDataState.Empty -> showEmptyFragment()
             is RepositoryDataState.HasData -> showRepositoryDetail(repositoryDataState.data)
+            is RepositoryDataState.Empty -> showEmptyFragment()
         }
-        showEmptyFragment()
     }
 
     private fun showRepositoryDetail(data: Repository) {
-
+        val bundle = bundleOf("repository" to data)
+        findNavController().navigate(
+            R.id.action_repositorySearchFragment_to_repositoryDetailFragment,
+            bundle
+        )
     }
 
     private fun showEmptyFragment() {
-
+        findNavController().navigate(R.id.action_repositorySearchFragment_to_emptyDataFragment)
     }
 
 }

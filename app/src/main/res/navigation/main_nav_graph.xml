@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav"
+    app:startDestination="@id/repositorySearchFragment">
+
+    <fragment
+        android:id="@+id/repositorySearchFragment"
+        android:name="com.example.brightinventions.feature.search_repo.RepositorySearchFragment"
+        android:label="RepositorySearchFragment" >
+        <action
+            android:id="@+id/action_repositorySearchFragment_to_emptyDataFragment"
+            app:destination="@id/emptyDataFragment" />
+        <action
+            android:id="@+id/action_repositorySearchFragment_to_repositoryDetailFragment"
+            app:destination="@id/repositoryDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emptyDataFragment"
+        android:name="com.example.brightinventions.feature.empty.EmptyDataFragment"
+        android:label="EmptyDataFragment" />
+    <fragment
+        android:id="@+id/repositoryDetailFragment"
+        android:name="com.example.brightinventions.feature.detail_repo.RepositoryDetailFragment"
+        android:label="RepositoryDetailFragment" >
+        <argument
+            android:name="repository"
+            app:argType="com.example.brightinventions.feature.model.Repository" />
+    </fragment>
+</navigation>

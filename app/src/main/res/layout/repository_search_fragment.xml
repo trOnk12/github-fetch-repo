@@ -87,8 +87,9 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="#000000"
+                    android:background="#FFC107"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="@{() -> viewModel.search()}"
                     android:orientation="horizontal"
                     android:text="@android:string/search_go">
