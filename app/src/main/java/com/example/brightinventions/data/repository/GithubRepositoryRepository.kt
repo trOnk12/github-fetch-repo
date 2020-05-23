@@ -24,12 +24,8 @@ class GithubRepositoryRepository @Inject constructor(
     }
 
     override fun getOffline(repositoryName: String, ownerName: String) =
-        getOfflineData(repositoryName, ownerName) ?: throw EmptyOfflineDataContainerException()
-
-    private fun getOfflineData(repositoryName: String, ownerName: String): Repository? {
-        return githubLocalSource.getRepository(repositoryName, ownerName)
-    }
-
+        githubLocalSource.getRepository(repositoryName, ownerName)
+            ?: throw EmptyOfflineDataContainerException()
 
     private fun fetchRemote(repositoryName: String, ownerName: String): Repository {
         githubService.getRepository(repositoryName, ownerName).let { repositoryResponse ->

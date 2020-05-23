@@ -1,10 +1,11 @@
-package com.example.brightinventions.feature.search_repo
+package com.example.brightinventions.utills
 
 import com.example.brightinventions.domain.usecase.RepositorySearchCriteria
 
 const val QUERY_DIVIDE_CHARACTER = '/'
 
-class RepositorySearchQueryExtractor : SearchQueryExtractor<RepositorySearchCriteria> {
+class RepositorySearchQueryExtractor :
+    SearchQueryExtractor<RepositorySearchCriteria> {
 
     override fun extract(query: String): RepositorySearchCriteria =
         RepositorySearchCriteria(extractOwnerName(query), extractRepositoryName(query))
