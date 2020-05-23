@@ -1,4 +1,4 @@
-package com.example.brightinventions.data.network
+package com.example.brightinventions.data.source.remote.network
 
 import CommitResponse
 import RepositoryResponse

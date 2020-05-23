@@ -1,7 +1,8 @@
-package com.example.brightinventions
+package com.example.brightinventions.feature
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.brightinventions.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,6 +1,6 @@
-package com.example.brightinventions.di
+package com.example.brightinventions.di.module
 
-import com.example.brightinventions.data.network.GithubService
+import com.example.brightinventions.data.source.remote.network.GithubService
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

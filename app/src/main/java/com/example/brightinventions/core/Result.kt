@@ -13,11 +13,5 @@ sealed class Result<out T > {
 fun <V> value(value: V): Result<V> = Result.Success(value)
 fun error(exception: Exception): Result<Nothing> = Result.Error(exception)
 
-suspend fun <V> either(action: suspend () -> V): Result<V> =
-    try {
-        value(action())
-    } catch (e: Exception) {
-        error(e)
-    }
 
 
