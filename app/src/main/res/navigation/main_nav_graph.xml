@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/repositorySearchFragment"
-        android:name="com.example.brightinventions.ui.search.RepositorySearchFragment"
+        android:name="com.example.brightinventions.ui.repositorySearch.RepositorySearchFragment"
         android:label="RepositorySearchFragment" >
         <action
             android:id="@+id/action_repositorySearchFragment_to_emptyDataFragment"
@@ -17,13 +17,18 @@
     <fragment
         android:id="@+id/emptyDataFragment"
         android:name="com.example.brightinventions.ui.empty.EmptyDataFragment"
-        android:label="EmptyDataFragment" />
+        android:label="EmptyDataFragment" >
+        <action
+            android:id="@+id/action_emptyDataFragment_to_repositorySearchFragment"
+            app:destination="@id/repositorySearchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/repositoryDetailFragment"
-        android:name="com.example.brightinventions.ui.detail.RepositoryDetailFragment"
+        android:name="com.example.brightinventions.ui.repositoryDetail.RepositoryDetailFragment"
         android:label="RepositoryDetailFragment" >
         <argument
             android:name="repository"
-            app:argType="com.example.brightinventions.feature.model.Repository" />
+            app:argType="com.example.brightinventions.ui.model.Repository" />
     </fragment>
+
 </navigation>

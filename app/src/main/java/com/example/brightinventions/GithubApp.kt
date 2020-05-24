@@ -3,7 +3,8 @@ package com.example.brightinventions
 import android.app.Application
 import android.content.Context
 import com.example.brightinventions.di.module.ContextModule
-import com.example.brightinventions.di.module.component.CoreComponent
+import com.example.brightinventions.di.CoreComponent
+import com.example.brightinventions.di.DaggerCoreComponent
 
 class GithubApp : Application() {
 

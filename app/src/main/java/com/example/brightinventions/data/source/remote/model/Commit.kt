@@ -1,3 +1,5 @@
+package com.example.brightinventions.data.source.remote.model
+
 import com.google.gson.annotations.SerializedName
 
 /*

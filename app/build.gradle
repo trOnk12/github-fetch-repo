@@ -8,14 +8,13 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
-
     dataBinding {
         enabled = true
     }
 
     defaultConfig {
         applicationId "com.example.brightinventions"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -27,6 +26,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", '"https://api.github.com"'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", '"https://api.github.com"'
         }
     }
 
@@ -54,8 +59,10 @@ dependencies {
     def room_version = "2.2.5"
 
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt  "androidx.room:room-compiler:$room_version"
     // For Kotlin use kapt instead of annotationProcessor
+
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"

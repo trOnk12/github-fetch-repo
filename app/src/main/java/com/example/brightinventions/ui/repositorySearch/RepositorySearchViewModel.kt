@@ -1,4 +1,4 @@
-package com.example.brightinventions.ui.search
+package com.example.brightinventions.ui.repositorySearch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,18 +8,17 @@ import com.example.brightinventions.core.Result
 import com.example.brightinventions.data.repository.EmptyOfflineDataContainerException
 import com.example.brightinventions.domain.model.Repository
 import com.example.brightinventions.domain.usecase.GetRepositoryUseCase
-import com.example.brightinventions.domain.usecase.RepositorySearchCriteria
-import com.example.brightinventions.utills.SearchQueryExtractor
+import com.example.brightinventions.utils.RepositorySearchQueryExtractor
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RepositorySearchViewModel @Inject constructor(
     private val getRepositoryUseCase: GetRepositoryUseCase,
-    private val searchQueryExtractor: SearchQueryExtractor<RepositorySearchCriteria>
+    private val repositorySearchQueryExtractor: RepositorySearchQueryExtractor
 ) : ViewModel() {
 
     private val _repositoryDataState: MutableLiveData<RepositoryDataState> = MutableLiveData()
-    val containerDataState: LiveData<RepositoryDataState>
+    val repositoryDataState: LiveData<RepositoryDataState>
         get() = _repositoryDataState
 
     private val _errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -31,8 +30,10 @@ class RepositorySearchViewModel @Inject constructor(
     fun search() {
         query.value?.let { query ->
             viewModelScope.launch {
-                when (val result = getRepositoryUseCase(searchQueryExtractor.extract(query))) {
-                    is Result.Success -> handleSuccess(result.data)
+                when (val result =
+                    getRepositoryUseCase(repositorySearchQueryExtractor.extract(query))) {
+                    is Result.Success -> _repositoryDataState.value =
+                        RepositoryDataState.HasData(result.data)
                     is Result.Error -> handleError(result.exception)
                 }
             }
@@ -41,7 +42,7 @@ class RepositorySearchViewModel @Inject constructor(
 
     private fun handleError(exception: Exception) {
         if (exception is EmptyOfflineDataContainerException) {
-            _repositoryDataState.value = RepositoryDataState.Empty
+            _repositoryDataState.value = RepositoryDataState.NoData
         } else {
             handleException(exception)
         }
@@ -53,13 +54,9 @@ class RepositorySearchViewModel @Inject constructor(
         }
     }
 
-    private fun handleSuccess(data: Repository) {
-        _repositoryDataState.value = RepositoryDataState.HasData(data)
-    }
-
 }
 
 sealed class RepositoryDataState {
-    object Empty : RepositoryDataState()
+    object NoData : RepositoryDataState()
     data class HasData(val data: Repository) : RepositoryDataState()
 }

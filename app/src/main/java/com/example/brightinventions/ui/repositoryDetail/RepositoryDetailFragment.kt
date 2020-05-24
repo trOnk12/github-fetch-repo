@@ -1,4 +1,4 @@
-package com.example.brightinventions.ui.detail
+package com.example.brightinventions.ui.repositoryDetail
 
 import androidx.fragment.app.Fragment
 import com.example.brightinventions.R

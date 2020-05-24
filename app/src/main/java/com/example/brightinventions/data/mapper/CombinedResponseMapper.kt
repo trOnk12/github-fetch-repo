@@ -6,8 +6,9 @@ import com.example.brightinventions.domain.model.Author
 import com.example.brightinventions.domain.model.Commit
 import com.example.brightinventions.domain.model.Detail
 import com.example.brightinventions.domain.model.Repository
+import javax.inject.Inject
 
-class CombinedResponseMapper {
+class CombinedResponseMapper @Inject constructor(){
 
     fun mapToRepository(input: CombinedResponse): Repository {
         return Repository(

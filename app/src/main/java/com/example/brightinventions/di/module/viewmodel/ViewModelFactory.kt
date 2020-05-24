@@ -1,4 +1,4 @@
-package com.app.mateusz.socialize.di.module.viewmodel
+package com.example.brightinventions.di.module.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -5,25 +5,30 @@ import com.example.brightinventions.domain.model.NetworkState
 import com.example.brightinventions.domain.model.Repository
 import com.example.brightinventions.domain.repository.IGithubRepositoryRepository
 import com.example.brightinventions.domain.repository.INetworkStateRepository
+import javax.inject.Inject
 
-class GetRepositoryUseCase(
+class GetRepositoryUseCase @Inject constructor(
     private val githubRepository: IGithubRepositoryRepository,
     private val networkStateRepository: INetworkStateRepository
-) : UseCase<RepositorySearchCriteria, Repository>() {
+) : UseCase<Repository, RepositorySearchCriteria>() {
 
-    override fun execute(params: RepositorySearchCriteria): Repository {
-        return when (networkStateRepository.getNetworkState()) {
-            is NetworkState.Offline -> githubRepository.getOffline(
-                repositoryName = params.repositoryName,
-                ownerName = params.ownerName
-            )
-            is NetworkState.Online -> githubRepository.get(
-                repositoryName = params.repositoryName,
-                ownerName = params.ownerName
-            )
-        }
+    override suspend fun run(params: RepositorySearchCriteria): Repository {
+        return githubRepository.get(
+            repositoryName = "octocat",
+            ownerName = "Hello-World"
+        )
     }
 
+    //        return when (networkStateRepository.getNetworkState()) {
+//            is NetworkState.Offline -> githubRepository.getOffline(
+//                repositoryName = params.repositoryName,
+//                ownerName = params.ownerName
+//            )
+//            is NetworkState.Online -> githubRepository.get(
+//                repositoryName = params.repositoryName,
+//                ownerName = params.ownerName
+//            )
+//        }
 }
 
 data class RepositorySearchCriteria(

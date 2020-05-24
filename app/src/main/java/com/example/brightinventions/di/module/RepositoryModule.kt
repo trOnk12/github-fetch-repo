@@ -1,8 +1,10 @@
 package com.example.brightinventions.di.module
 
 import com.example.brightinventions.data.repository.GithubRepositoryRepository
+import com.example.brightinventions.data.repository.NetworkStateRepository
 import com.example.brightinventions.domain.repository.IGithubRepositoryRepository
-import dagger.BindsInstance
+import com.example.brightinventions.domain.repository.INetworkStateRepository
+import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
 
@@ -10,7 +12,11 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
 
     @Singleton
-    @BindsInstance
+    @Binds
     abstract fun provideGithubRepository(githubRepositoryRepository: GithubRepositoryRepository): IGithubRepositoryRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideNetworkGithubRepository(networkGithubRepository: NetworkStateRepository): INetworkStateRepository
 
 }

@@ -1,20 +1,24 @@
 package com.example.brightinventions.core
 
-abstract class UseCase<in T, out R> {
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-    abstract fun execute(params: T): R
+abstract class UseCase<out Type, in Params> where Type : Any {
 
-    operator fun invoke(params: T): Result<R> {
+    abstract suspend fun run(params: Params): Type
+
+    suspend operator fun invoke(params: Params): Result<Type> {
         return try {
-            val type = execute(params)
-            Result.Success(type)
+            withContext(Dispatchers.IO) {
+                run(params).let {
+                    Result.Success(it)
+                }
+            }
         } catch (exception: Exception) {
-            Result.Error(exception)
+            return Result.Error(exception)
         }
     }
-
 }
-
 
 class None
 

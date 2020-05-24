@@ -1,13 +1,13 @@
-package com.example.brightinventions.utills
+package com.example.brightinventions.utils
 
 import com.example.brightinventions.domain.usecase.RepositorySearchCriteria
+import javax.inject.Inject
 
 const val QUERY_DIVIDE_CHARACTER = '/'
 
-class RepositorySearchQueryExtractor :
-    SearchQueryExtractor<RepositorySearchCriteria> {
+class RepositorySearchQueryExtractor @Inject constructor() {
 
-    override fun extract(query: String): RepositorySearchCriteria =
+    fun extract(query: String): RepositorySearchCriteria =
         RepositorySearchCriteria(extractOwnerName(query), extractRepositoryName(query))
 
     private fun extractRepositoryName(query: String): String {

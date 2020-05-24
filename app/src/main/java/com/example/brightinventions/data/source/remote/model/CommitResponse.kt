@@ -1,3 +1,6 @@
+package com.example.brightinventions.data.source.remote.model
+
+
 import com.google.gson.annotations.SerializedName
 
 /*
@@ -12,15 +15,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class CommitResponse (
-
-	@SerializedName("sha") val sha : String,
-	@SerializedName("node_id") val node_id : String,
-	@SerializedName("commit") val commit : Commit,
-	@SerializedName("url") val url : String,
-	@SerializedName("html_url") val html_url : String,
-	@SerializedName("comments_url") val comments_url : String,
-	@SerializedName("author") val author : Author,
-	@SerializedName("committer") val committer : Committer,
-	@SerializedName("parents") val parents : List<Parents>
+data class CommitResponse(
+    @SerializedName("sha") val sha: String,
+    @SerializedName("node_id") val node_id: String,
+    @SerializedName("commit") val commit: Commit,
+    @SerializedName("url") val url: String,
+    @SerializedName("html_url") val html_url: String,
+    @SerializedName("comments_url") val comments_url: String,
+    @SerializedName("author") val author: Author,
+    @SerializedName("committer") val committer: Committer,
+    @SerializedName("parents") val parents: List<Parents>
 )
