@@ -8,27 +8,29 @@ import com.example.brightinventions.domain.model.Detail
 import com.example.brightinventions.domain.model.Repository
 import javax.inject.Inject
 
-class CombinedResponseMapper @Inject constructor(){
+class CombinedResponseMapper @Inject constructor() {
 
     fun mapToRepository(input: CombinedResponse): Repository {
         return Repository(
-            input.repositoryResponse.id, listOf(
+            input.repositoryNetwork.id, commits = input.commitNetwork.map { commitResponse ->
                 Commit(
-                    Author(input.commitResponse.author.login),
-                    Detail(input.commitResponse.commit.message, input.commitResponse.sha)
+                    Author(commitResponse.author.login),
+                    Detail(commitResponse.commit.message, commitResponse.sha)
                 )
-            )
+            }
         )
     }
 
-    fun mapToCommitEntity(input: CombinedResponse): CommitEntity {
-        return CommitEntity(
-            id = input.commitResponse.commit.committer.id,
-            repositoryId = input.repositoryResponse.id,
-            authorName = input.commitResponse.committer.login,
-            message = input.commitResponse.commit.message,
-            SHA = input.commitResponse.sha
-        )
+    fun mapToCommitEntity(input: CombinedResponse): List<CommitEntity> {
+        return input.commitNetwork.map { commitResponse ->
+            CommitEntity(
+                id = commitResponse.commit.committer.id,
+                repositoryId = input.repositoryNetwork.id,
+                authorName = commitResponse.committer.login,
+                message = commitResponse.commit.message,
+                SHA = commitResponse.sha
+            )
+        }
     }
 
 }

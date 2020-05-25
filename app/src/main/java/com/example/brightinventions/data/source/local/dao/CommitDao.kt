@@ -8,6 +8,6 @@ import com.example.brightinventions.data.source.local.entity.CommitEntity
 interface CommitDao {
 
     @Insert
-    fun insert(commitEntity: CommitEntity)
+    fun insert(commitEntity: List<CommitEntity>)
 
 }

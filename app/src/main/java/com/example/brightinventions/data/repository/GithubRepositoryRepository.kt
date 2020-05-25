@@ -4,8 +4,7 @@ import com.example.brightinventions.data.mapper.CombinedResponseMapper
 import com.example.brightinventions.data.source.local.GithubLocalSource
 import com.example.brightinventions.data.source.local.entity.RepositoryEntity
 import com.example.brightinventions.data.source.remote.model.CommitNetwork
-import com.example.brightinventions.data.source.remote.model.CommitResponse
-import com.example.brightinventions.data.source.remote.model.RepositoryResponse
+import com.example.brightinventions.data.source.remote.model.RepositoryNetwork
 import com.example.brightinventions.data.source.remote.network.GithubService
 import com.example.brightinventions.domain.model.Repository
 import com.example.brightinventions.domain.repository.IGithubRepositoryRepository
@@ -19,22 +18,17 @@ class GithubRepositoryRepository @Inject constructor(
 
     override suspend fun get(repositoryName: String, ownerName: String): Repository {
         return try {
-            getOffline(repositoryName, ownerName)
+            getCached(repositoryName, ownerName)
         } catch (exception: EmptyOfflineDataContainerException) {
-            fetchRemote(repositoryName, ownerName)
+            getRemote(repositoryName, ownerName)
         }
     }
 
-    override fun getOffline(repositoryName: String, ownerName: String): Repository {
-        return getCachedData(repositoryName, ownerName)
-            ?: throw EmptyOfflineDataContainerException()
-    }
-
-    private fun getCachedData(repositoryName: String, ownerName: String): Repository? {
+    override fun getCached(repositoryName: String, ownerName: String): Repository {
         return githubLocalSource.getRepository(repositoryName, ownerName)
     }
 
-    private suspend fun fetchRemote(repositoryName: String, ownerName: String): Repository {
+    private suspend fun getRemote(repositoryName: String, ownerName: String): Repository {
         githubService.getRepository(repositoryName, ownerName).let { repositoryResponse ->
             githubService.getCommits(repositoryName, ownerName).let { commitResponse ->
                 cacheRepository(repositoryName, ownerName, repositoryResponse)
@@ -44,26 +38,14 @@ class GithubRepositoryRepository @Inject constructor(
         }
     }
 
-    private fun map(
-        repositoryResponse: RepositoryResponse,
-        commitResponse: CommitResponse
-    ): Repository {
-        return combinedResponseMapper.mapToRepository(
-            CombinedResponse(
-                repositoryResponse,
-                commitResponse
-            )
-        )
-    }
-
     private fun cacheRepository(
         repositoryName: String,
         ownerName: String,
-        repositoryResponse: RepositoryResponse
+        repositoryNetwork: RepositoryNetwork
     ) {
         githubLocalSource.create(
             RepositoryEntity(
-                id = repositoryResponse.id,
+                id = repositoryNetwork.id,
                 ownerName = ownerName,
                 repositoryName = repositoryName
             )
@@ -71,15 +53,27 @@ class GithubRepositoryRepository @Inject constructor(
     }
 
     private fun cacheCommit(
-        repositoryResponse: RepositoryResponse,
-        commitResponse: CommitResponse
+        repositoryNetwork: RepositoryNetwork,
+        commitNetwork: List<CommitNetwork>
     ) {
         githubLocalSource.create(
             combinedResponseMapper.mapToCommitEntity(
                 CombinedResponse(
-                    repositoryResponse,
-                    commitResponse
+                    repositoryNetwork,
+                    commitNetwork
                 )
+            )
+        )
+    }
+
+    private fun map(
+        repositoryNetwork: RepositoryNetwork,
+        commitNetwork: List<CommitNetwork>
+    ): Repository {
+        return combinedResponseMapper.mapToRepository(
+            CombinedResponse(
+                repositoryNetwork,
+                commitNetwork
             )
         )
     }
@@ -89,6 +83,6 @@ class GithubRepositoryRepository @Inject constructor(
 class EmptyOfflineDataContainerException : Exception()
 
 data class CombinedResponse(
-    val repositoryResponse: RepositoryResponse,
-    val commitResponse: CommitResponse
+    val repositoryNetwork: RepositoryNetwork,
+    val commitNetwork: List<CommitNetwork>
 )
