@@ -1,13 +1,15 @@
 package com.example.brightinventions.ui.repositorySearch
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.brightinventions.core.Result
-import com.example.brightinventions.data.repository.EmptyOfflineDataContainerException
+import com.example.brightinventions.core.functional.Result
+import com.example.brightinventions.data.source.local.EmptyCacheException
 import com.example.brightinventions.domain.model.Repository
 import com.example.brightinventions.domain.usecase.GetRepositoryUseCase
+import com.example.brightinventions.domain.usecase.RepositorySearchCriteria
 import com.example.brightinventions.utils.RepositorySearchQueryExtractor
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +20,7 @@ class RepositorySearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _repositoryDataState: MutableLiveData<RepositoryDataState> = MutableLiveData()
-    val repositoryDataState: LiveData<RepositoryDataState>
+    val repository: LiveData<RepositoryDataState>
         get() = _repositoryDataState
 
     private val _errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -28,35 +30,48 @@ class RepositorySearchViewModel @Inject constructor(
     val query = MutableLiveData<String>()
 
     fun search() {
-        query.value?.let { query ->
-            viewModelScope.launch {
-                when (val result =
-                    getRepositoryUseCase(repositorySearchQueryExtractor.extract(query))) {
-                    is Result.Success -> _repositoryDataState.value =
-                        RepositoryDataState.HasData(result.data)
-                    is Result.Error -> handleError(result.exception)
-                }
+        query.value?.let {
+            getRepository(
+                repositorySearchQueryExtractor.extract(it)
+            )
+        }
+    }
+
+    private fun getRepository(repositorySearchCriteria: RepositorySearchCriteria) {
+        viewModelScope.launch {
+            when (val result = getRepositoryUseCase(repositorySearchCriteria)) {
+                is Result.Success -> handleRepository(result.data)
+                is Result.Error -> handleError(result.exception)
             }
         }
     }
 
+    private fun handleRepository(repository: Repository) {
+        _repositoryDataState.value = RepositoryDataState.Data(repository)
+    }
+
     private fun handleError(exception: Exception) {
-        if (exception is EmptyOfflineDataContainerException) {
-            _repositoryDataState.value = RepositoryDataState.NoData
+        if (exception is EmptyCacheException) {
+            handleEmptyCacheException()
         } else {
             handleException(exception)
         }
     }
 
+    private fun handleEmptyCacheException() {
+        _repositoryDataState.value = RepositoryDataState.EmptyData
+    }
+
     private fun handleException(exception: Exception) {
         exception.message?.let {
             _errorMessage.value = it
+            Log.d("TEST","stack frame" + exception.stackTrace)
         }
     }
 
 }
 
 sealed class RepositoryDataState {
-    object NoData : RepositoryDataState()
-    data class HasData(val data: Repository) : RepositoryDataState()
+    object EmptyData : RepositoryDataState()
+    data class Data(val data: Repository) : RepositoryDataState()
 }

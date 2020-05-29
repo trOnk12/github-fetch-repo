@@ -16,11 +16,11 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Commit (
 
-	@SerializedName("author") val author : Author,
-	@SerializedName("committer") val committer : Committer,
-	@SerializedName("message") val message : String,
-	@SerializedName("tree") val tree : Tree,
-	@SerializedName("url") val url : String,
-	@SerializedName("comment_count") val comment_count : Int,
-	@SerializedName("verification") val verification : Verification
+	@SerializedName("author") val author : Author?,
+	@SerializedName("committer") val committer : Committer?,
+	@SerializedName("message") val message : String?,
+	@SerializedName("tree") val tree : Tree?,
+	@SerializedName("url") val url : String?,
+	@SerializedName("comment_count") val comment_count : Int?,
+	@SerializedName("verification") val verification : Verification?
 )

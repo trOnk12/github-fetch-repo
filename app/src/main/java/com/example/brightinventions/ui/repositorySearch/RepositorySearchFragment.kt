@@ -1,16 +1,16 @@
 package com.example.brightinventions.ui.repositorySearch
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.brightinventions.GithubApp
 import com.example.brightinventions.R
-import com.example.brightinventions.core.observe
+import com.example.brightinventions.core.base.BaseFragment
+import com.example.brightinventions.core.extension.observe
 import com.example.brightinventions.databinding.RepositorySearchFragmentBinding
 import com.example.brightinventions.ui.model.Author
 import com.example.brightinventions.ui.model.Commit
@@ -19,18 +19,15 @@ import com.example.brightinventions.ui.model.Repository
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class RepositorySearchFragment : Fragment() {
+const val NAVIGATION_REPOSITORY_ARGUMENT_NAME = "repository"
+
+class RepositorySearchFragment : BaseFragment() {
 
     @Inject
     lateinit var repositorySearchViewModel: RepositorySearchViewModel
     private lateinit var repositorySearchFragmentBinding: RepositorySearchFragmentBinding
 
-    override fun onAttach(context: Context) {
-        initializeDaggerDependency()
-        super.onAttach(context)
-    }
-
-    private fun initializeDaggerDependency() {
+    override fun initializeDaggerDependency() {
         DaggerRepositorySearchComponent
             .builder()
             .coreComponent(GithubApp.coreComponent(requireContext()))
@@ -43,47 +40,51 @@ class RepositorySearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflateBinding(inflater, container)
-    }
-
-    private fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
-        repositorySearchFragmentBinding =
-            RepositorySearchFragmentBinding.inflate(inflater, container, false).apply {
-                lifecycleOwner = this@RepositorySearchFragment
-                viewModel = repositorySearchViewModel
-            }
-
+        repositorySearchFragmentBinding = initializeDataBinding(inflater, container)
         return repositorySearchFragmentBinding.root
     }
 
+    private fun initializeDataBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        RepositorySearchFragmentBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = this@RepositorySearchFragment
+            viewModel = repositorySearchViewModel
+        }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(repositorySearchViewModel.repositoryDataState, ::onRepositoryDataState)
+        observeLiveData()
+    }
+
+    private fun observeLiveData() {
+        observe(repositorySearchViewModel.repository, ::onRepositoryChange)
         observe(repositorySearchViewModel.errorMessage, ::onErrorMessage)
     }
 
-    private fun onRepositoryDataState(repositoryDataState: RepositoryDataState) {
+    private fun onRepositoryChange(repositoryDataState: RepositoryDataState) {
         when (repositoryDataState) {
-            is RepositoryDataState.HasData -> showRepositoryDetail(
-                Repository(
-                    id = repositoryDataState.data.id,
-                    commits = repositoryDataState.data.commits.map {
-                        Commit(
-                            Author(name = it.author.name),
-                            Detail(message = it.detail.message, SHA = it.detail.SHA)
-                        )
-                    })
-            )
-            is RepositoryDataState.NoData -> showEmptyFragment()
+            is RepositoryDataState.Data -> showRepositoryDetail(map(repositoryDataState.data))
+            is RepositoryDataState.EmptyData -> showEmptyFragment()
         }
     }
 
+    private fun map(data: com.example.brightinventions.domain.model.Repository) =
+        Repository(
+            id = data.id,
+            commits = data.commits.map {
+                Commit(
+                    Author(name = it.author.name),
+                    Detail(message = it.detail.message, SHA = it.detail.SHA)
+                )
+            })
+
     private fun onErrorMessage(message: String) {
-        Snackbar.make(repositorySearchFragmentBinding.root, message, Snackbar.LENGTH_LONG).show()
+        Log.d("TEST", message)
+        Snackbar.make(repositorySearchFragmentBinding.root, message, Snackbar.LENGTH_LONG)
+            .show()
     }
 
     private fun showRepositoryDetail(data: Repository) {
-        val bundle = bundleOf("repository" to data)
+        val bundle = bundleOf(NAVIGATION_REPOSITORY_ARGUMENT_NAME to data)
 
         findNavController().navigate(
             R.id.action_repositorySearchFragment_to_repositoryDetailFragment,

@@ -17,12 +17,12 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Author (
 
-	@SerializedName("login") val login : String,
-	@SerializedName("id") val id : Int,
+	@SerializedName("login") val login : String?,
+	@SerializedName("id") val id : Int?,
 	@SerializedName("node_id") val node_id : String,
 	@SerializedName("avatar_url") val avatar_url : String,
 	@SerializedName("gravatar_id") val gravatar_id : String,
-	@SerializedName("url") val url : String,
+	@SerializedName("url") val url : String?,
 	@SerializedName("html_url") val html_url : String,
 	@SerializedName("followers_url") val followers_url : String,
 	@SerializedName("following_url") val following_url : String,

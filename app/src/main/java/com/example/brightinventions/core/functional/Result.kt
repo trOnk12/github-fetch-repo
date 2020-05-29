@@ -1,4 +1,4 @@
-package com.example.brightinventions.core
+package com.example.brightinventions.core.functional
 
 /**
  * A generic class that holds a value with its loading status.
@@ -10,8 +10,10 @@ sealed class Result<out T > {
 }
 
 
-fun <V> value(value: V): Result<V> = Result.Success(value)
-fun error(exception: Exception): Result<Nothing> = Result.Error(exception)
+fun <V> value(value: V): Result<V> =
+    Result.Success(value)
+fun error(exception: Exception): Result<Nothing> =
+    Result.Error(exception)
 
 
 

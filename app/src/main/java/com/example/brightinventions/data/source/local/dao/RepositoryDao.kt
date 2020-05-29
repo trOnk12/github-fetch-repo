@@ -12,9 +12,9 @@ interface RepositoryDao {
 
     @Transaction
     @Query("SELECT * FROM Repository WHERE ownerName LIKE :ownerName AND repositoryName LIKE :repositoryName")
-    fun get(ownerName: String, repositoryName: String): RepositoryWithCommit?
+    suspend fun get(ownerName: String, repositoryName: String): RepositoryWithCommit?
 
     @Insert
-    fun insert(repositoryEntity: RepositoryEntity)
+    suspend fun insert(repositoryEntity: RepositoryEntity)
 
 }

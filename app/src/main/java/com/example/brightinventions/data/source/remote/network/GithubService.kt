@@ -8,7 +8,7 @@ import retrofit2.http.Path
 interface GithubService {
 
     @GET("/repos/{ownerName}/{repositoryName}")
-    suspend fun getRepository(@Path("ownerName") ownerName: String, @Path("repositoryName") repositoryName: String): RepositoryNetwork
+   suspend fun getRepository(@Path("ownerName") ownerName: String, @Path("repositoryName") repositoryName: String): RepositoryNetwork
 
     @GET("/repos/{ownerName}/{repositoryName}/commits")
     suspend fun getCommits(@Path("ownerName") ownerName: String, @Path("repositoryName") repositoryName: String): List<CommitNetwork>

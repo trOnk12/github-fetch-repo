@@ -1,4 +1,4 @@
-package com.example.brightinventions.core
+package com.example.brightinventions.core.extension
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

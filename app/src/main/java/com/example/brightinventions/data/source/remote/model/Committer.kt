@@ -1,3 +1,4 @@
+
 package com.example.brightinventions.data.source.remote.model
 
 
@@ -17,7 +18,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Committer (
 
-	@SerializedName("login") val login : String,
+	@SerializedName("login") val login : String?,
 	@SerializedName("id") val id : Int,
 	@SerializedName("node_id") val node_id : String,
 	@SerializedName("avatar_url") val avatar_url : String,
