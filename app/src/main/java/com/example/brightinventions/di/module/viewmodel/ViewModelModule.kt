@@ -16,6 +16,6 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(RepositorySearchViewModel::class)
-    internal abstract fun loginViewModel(viewModel: RepositorySearchViewModel): ViewModel
+    internal abstract fun provideRepositorySearchViewModel(viewModel: RepositorySearchViewModel): ViewModel
 
 }

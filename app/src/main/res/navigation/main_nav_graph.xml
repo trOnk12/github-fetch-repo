@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/repositorySearchFragment">
 
+    <fragment
+        android:id="@+id/repositorySearchFragment"
+        android:name="com.example.brightinventions.ui.repositorySearch.RepositorySearchFragment"
+        android:label="RepositorySearchFragment"
+        tools:layout="@layout/repository_search_fragment">
+        <action
+            android:id="@+id/action_repositorySearchFragment_to_repositoryDetailFragment"
+            app:destination="@id/repositoryDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        />
+        <action
+            android:id="@+id/action_repositorySearchFragment_to_emptyDataFragment"
+            app:destination="@id/emptyDataFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryDetailFragment"
+        android:name="com.example.brightinventions.ui.repositoryDetail.RepositoryDetailFragment"
+        android:label="RepositoryDetailFragment"
+        tools:layout="@layout/repository_detail_fragment">
+        <argument
+            android:name="repository"
+            app:argType="com.example.brightinventions.ui.model.Repository" />
+    </fragment>
+    <fragment
+        android:id="@+id/emptyDataFragment"
+        android:name="com.example.brightinventions.ui.empty.EmptyDataFragment"
+        android:label="EmptyDataFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        tools:layout="@layout/empty_data_fragment" />
 </navigation>

@@ -1,17 +1,18 @@
 package com.example.brightinventions.ui.repositorySearch
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.brightinventions.core.functional.Result
+import com.example.brightinventions.core.functional.SingleLiveData
 import com.example.brightinventions.data.source.local.EmptyCacheException
 import com.example.brightinventions.domain.model.Repository
 import com.example.brightinventions.domain.usecase.GetRepositoryUseCase
 import com.example.brightinventions.domain.usecase.RepositorySearchCriteria
 import com.example.brightinventions.utils.RepositorySearchQueryExtractor
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class RepositorySearchViewModel @Inject constructor(
@@ -19,11 +20,11 @@ class RepositorySearchViewModel @Inject constructor(
     private val repositorySearchQueryExtractor: RepositorySearchQueryExtractor
 ) : ViewModel() {
 
-    private val _repositoryDataState: MutableLiveData<RepositoryDataState> = MutableLiveData()
+    private val _repositoryDataState: SingleLiveData<RepositoryDataState> = SingleLiveData()
     val repository: LiveData<RepositoryDataState>
         get() = _repositoryDataState
 
-    private val _errorMessage: MutableLiveData<String> = MutableLiveData()
+    private val _errorMessage: SingleLiveData<String> = SingleLiveData()
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
@@ -51,10 +52,10 @@ class RepositorySearchViewModel @Inject constructor(
     }
 
     private fun handleError(exception: Exception) {
-        if (exception is EmptyCacheException) {
-            handleEmptyCacheException()
-        } else {
-            handleException(exception)
+        when (exception) {
+            is EmptyCacheException -> handleEmptyCacheException()
+            is HttpException -> handleHttpException(exception)
+            else -> handleException(exception)
         }
     }
 
@@ -62,10 +63,15 @@ class RepositorySearchViewModel @Inject constructor(
         _repositoryDataState.value = RepositoryDataState.EmptyData
     }
 
+    private fun handleHttpException(exception: HttpException) {
+        if (exception.code() == 404) {
+            _repositoryDataState.value = RepositoryDataState.EmptyData
+        }
+    }
+
     private fun handleException(exception: Exception) {
         exception.message?.let {
             _errorMessage.value = it
-            Log.d("TEST","stack frame" + exception.stackTrace)
         }
     }
 

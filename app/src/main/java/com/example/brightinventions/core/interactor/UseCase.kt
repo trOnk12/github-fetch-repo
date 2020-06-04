@@ -1,5 +1,6 @@
-package com.example.brightinventions.core.functional
+package com.example.brightinventions.core.interactor
 
+import com.example.brightinventions.core.functional.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -24,6 +25,3 @@ abstract class UseCase<out Type, in Params> where Type : Any {
         }
     }
 }
-
-class None
-

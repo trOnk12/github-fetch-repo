@@ -10,15 +10,16 @@
             type="com.example.brightinventions.ui.repositorySearch.RepositorySearchViewModel" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/welcome_ly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -28,27 +29,23 @@
                 android:layout_height="128dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                app:srcCompat="@drawable/github"
-                tools:layout_editor_absoluteX="141dp"
-                tools:layout_editor_absoluteY="143dp" />
+                app:srcCompat="@drawable/github" />
 
             <TextView
                 android:id="@+id/welcome_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Welcome,"
+                android:text="@string/welcome"
                 android:textSize="36sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="76dp"
-                tools:layout_editor_absoluteY="281dp" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="search a repository."
+                android:text="@string/search_a_repository"
                 android:textSize="28sp" />
 
         </LinearLayout>
@@ -56,7 +53,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:orientation="vertical">
 
             <LinearLayout
@@ -69,14 +65,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/search_query_textinput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="type repo in the form of owner/name"
+                        android:hint="@string/search_hint"
                         android:text="@={viewModel.query}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -87,7 +83,7 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:background="#FFC107"
+                    android:background="@color/yellow"
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="@{() -> viewModel.search()}"
@@ -99,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@android:drawable/ic_search_category_default"
-                        android:backgroundTint="#FFFFFF" />
+                        android:backgroundTint="@color/white" />
 
                 </FrameLayout>
 
@@ -107,6 +103,6 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

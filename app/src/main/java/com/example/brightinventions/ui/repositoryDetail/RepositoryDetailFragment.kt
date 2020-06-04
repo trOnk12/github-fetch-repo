@@ -1,4 +1,4 @@
-package com.example.brightinventions.ui.repositoryDetail.adapter
+package com.example.brightinventions.ui.repositoryDetail
 
 import android.content.Intent
 import android.content.Intent.ACTION_SEND
@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.brightinventions.R
+import com.example.brightinventions.core.ui.MarginItemDecoration
 import com.example.brightinventions.databinding.RepositoryDetailFragmentBinding
 import com.example.brightinventions.ui.model.Commit
+import com.example.brightinventions.ui.repositoryDetail.adapter.CommitsAdapter
 import com.google.android.material.snackbar.Snackbar
 
 class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
@@ -37,28 +39,29 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
         super.onViewCreated(view, savedInstanceState)
         repositoryDetailFragmentBinding.apply {
             commitsRv.adapter = commitsAdapter
-            sendCommitsBtn.setOnClickListener { handleSendCommits(commitsAdapter.commitsToShare) }
+            commitsRv.addItemDecoration(MarginItemDecoration(resources.getDimension(R.dimen.default_padding).toInt()))
             repositiory = arguments?.getParcelable(NAVIGATION_REPOSITORY_ARGUMENT_NAME)
+            sendCommitsBtn.setOnClickListener { handleSendCommits(commitsAdapter.commitsToShare) }
         }
     }
 
     private fun handleSendCommits(commitsToSend: ArrayList<Commit>) {
         if (commitsToSend.isEmpty()) {
-            handleNoCommitSelected()
+            showSnackBar(getString(R.string.empty_commits_to_send_info))
         } else {
-            shareCommits(commitsToSend)
+            startIntentChooser(commitsToSend)
         }
     }
 
-    private fun handleNoCommitSelected() {
+    private fun showSnackBar(message: String) {
         Snackbar.make(
             repositoryDetailFragmentBinding.root,
-            getString(R.string.empty_commits_to_send_info),
+            message,
             Snackbar.LENGTH_LONG
         ).show()
     }
 
-    private fun shareCommits(commitsToSend: ArrayList<Commit>) {
+    private fun startIntentChooser(commitsToSend: ArrayList<Commit>) {
         val intent = Intent(ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, commitsToSend.toString())

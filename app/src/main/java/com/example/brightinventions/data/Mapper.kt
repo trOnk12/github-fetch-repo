@@ -63,14 +63,20 @@ class CommitEntityMapper {
     }
 }
 
-class CommitMapper {
+class RepositoryDomainMapper {
     companion object {
-        fun map(input: CommitEntity): Commit {
-            return Commit(
-                Author(name = input.authorName),
-                Detail(message = input.message, SHA = input.SHA)
-            )
+        fun mapToRepositoryPresentation(repository: Repository): com.example.brightinventions.ui.model.Repository {
+            return com.example.brightinventions.ui.model.Repository(
+                id = repository.id,
+                commits = repository.commits.map {
+                    com.example.brightinventions.ui.model.Commit(
+                        com.example.brightinventions.ui.model.Author(name = it.author.name),
+                        com.example.brightinventions.ui.model.Detail(
+                            message = it.detail.message,
+                            SHA = it.detail.SHA
+                        )
+                    )
+                })
         }
     }
-
 }

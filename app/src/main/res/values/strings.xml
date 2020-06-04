@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Bright Inventions</string>
+    <string name="empty_commits_to_send_info">Choose at least one commit.</string>
+    <string name="chooser_title">Choose an application to share commits.</string>
+    <string name="empty_data_info">Unfortunetly, no search results.</string>
+    <string name="welcome">Welcome,</string>
+    <string name="search_a_repository">search a repository.</string>
+    <string name="search_hint">type repo in the form of owner/name</string>
 </resources>
